@@ -77,9 +77,20 @@ async function handleCalculate(req, res) {
       result = leftNumber + rightNumber;
     } else if (operation === 'subtract') {
       result = leftNumber - rightNumber;
+    } else if (operation === 'multiply') {
+      result = leftNumber * rightNumber;
+    } else if (operation === 'divide') {
+      if (rightNumber === 0) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Cannot divide by zero.' }));
+        return;
+      }
+      result = leftNumber / rightNumber;
     } else {
       res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: 'Only add and subtract operations are supported.' }));
+      res.end(
+        JSON.stringify({ error: 'Only add, subtract, multiply, and divide operations are supported.' })
+      );
       return;
     }
 
